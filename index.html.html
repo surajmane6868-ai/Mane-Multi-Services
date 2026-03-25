@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mane Multi Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #16a34a;
+    --green-dark: #15803d;
+    --green-light: #bbf7d0;
+    --green-pale: #f0fdf4;
+    --saffron: #f97316;
+    --saffron-light: #fff7ed;
+    --blue: #1d4ed8;
+    --blue-light: #eff6ff;
+    --text: #1a1a2e;
+    --text-muted: #64748b;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --page-bg: #f8fafc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 50%, #f97316 100%);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .header-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-circle {
+    width: 52px; height: 52px;
+    background: white;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .shop-info { flex: 1; }
+  .shop-name {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+  .shop-tagline {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 2px;
+  }
+  .call-btn {
+    background: white;
+    color: var(--green-dark);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    font-family: 'Baloo 2', cursive;
+  }
+  .call-btn:hover { background: #f0fdf4; }
+
+  /* SEARCH */
+  .search-wrap {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    position: sticky;
+    top: 84px;
+    z-index: 99;
+  }
+  .search-inner { max-width: 680px; margin: 0 auto; position: relative; }
+  .search-box {
+    width: 100%;
+    padding: 13px 18px 13px 46px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-box:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(22,163,74,0.12);
+    background: white;
+  }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px; color: var(--text-muted);
+  }
+
+  /* MAIN */
+  .main { max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  /* CATEGORY PILLS */
+  .cat-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .pill {
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+  }
+  .pill.all    { background: var(--green); color: white; border-color: var(--green); }
+  .pill.id     { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
+  .pill.cert   { background: #fef9c3; color: #854d0e; border-color: #fde68a; }
+  .pill.family { background: #fce7f3; color: #9d174d; border-color: #fbcfe8; }
+  .pill.govt   { background: var(--saffron-light); color: #9a3412; border-color: #fed7aa; }
+  .pill.active, .pill:hover { transform: scale(1.05); box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 4px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--border), transparent);
+    border-radius: 2px;
+  }
+
+  /* DOC CARDS */
+  .doc-grid { display: flex; flex-direction: column; gap: 10px; }
+  .doc-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.22s;
+  }
+  .doc-card:hover { border-color: var(--green); box-shadow: 0 4px 20px rgba(22,163,74,0.12); transform: translateY(-1px); }
+  .doc-card.open { border-color: var(--green); }
+  .doc-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+  }
+  .doc-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .doc-title-wrap { flex: 1; min-width: 0; }
+  .doc-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .doc-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .doc-arrow {
+    font-size: 18px;
+    color: var(--text-muted);
+    transition: transform 0.22s;
+    flex-shrink: 0;
+  }
+  .doc-card.open .doc-arrow { transform: rotate(180deg); color: var(--green); }
+
+  /* DOC BODY */
+  .doc-body {
+    display: none;
+    border-top: 1.5px dashed var(--border);
+    padding: 14px 16px 16px;
+    background: var(--green-pale);
+  }
+  .doc-card.open .doc-body { display: block; }
+  .doc-body-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .req-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .req-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.5;
+    border: 1px solid var(--green-light);
+  }
+  .req-num {
+    min-width: 22px; height: 22px;
+    background: var(--green);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .info-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .info-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .badge-fee  { background: #fef9c3; color: #854d0e; }
+  .badge-time { background: var(--blue-light); color: var(--blue); }
+  .whatsapp-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 12px;
+    background: #25D366;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    transition: background 0.18s;
+  }
+  .whatsapp-btn:hover { background: #128C7E; }
+
+  /* NO RESULT */
+  .no-result {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    display: none;
+  }
+  .no-result-icon { font-size: 48px; margin-bottom: 12px; }
+  .no-result p { font-size: 15px; line-height: 1.6; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--text);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .footer strong { color: white; }
+
+  /* BADGE COUNT */
+  .result-count {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .result-count span { color: var(--green); font-weight: 700; }
+
+  @media (max-width: 400px) {
+    .shop-name { font-size: 17px; }
+    .doc-title { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-circle">🏛️</div>
+    <div class="shop-info">
+      <div class="shop-name">Mane Multi Services</div>
+      <div class="shop-tagline">सरकारी कागदपत्रे • जलद सेवा • विश्वासू</div>
+    </div>
+    <a class="call-btn" href="tel:8600443830">📞 Call</a>
+  </div>
+</header>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input class="search-box" type="text" id="searchBox" placeholder="कागदपत्र शोधा... (उदा. जात, PAN, Aadhaar)" oninput="filterDocs()" />
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="cat-label">श्रेणी निवडा</div>
+  <div class="cat-pills">
+    <button class="pill all active" onclick="filterCat('all', this)">📋 सर्व</button>
+    <button class="pill id"   onclick="filterCat('id', this)">🪪 ओळखपत्र</button>
+    <button class="pill cert" onclick="filterCat('cert', this)">📜 प्रमाणपत्र</button>
+    <button class="pill family" onclick="filterCat('family', this)">👨‍👩‍👧 कुटुंब</button>
+    <button class="pill govt" onclick="filterCat('govt', this)">🏛️ सरकारी</button>
+  </div>
+
+  <div class="result-count" id="resultCount"><span id="countNum">18</span> सेवा उपलब्ध</div>
+  <div class="section-title">📂 कागदपत्रे व आवश्यक यादी</div>
+  <div class="doc-grid" id="docGrid"></div>
+  <div class="no-result" id="noResult">
+    <div class="no-result-icon">🔍</div>
+    <p>माफ करा, "<strong id="noQuery"></strong>" सापडले नाही.<br>कृपया दुकानात संपर्क करा.</p>
+    <a class="whatsapp-btn" style="max-width:240px;margin:16px auto 0;" href="https://wa.me/918600443830">💬 WhatsApp करा</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <strong>Mane Multi Services</strong><br>
+  📞 8600443830<br>
+  सोमवार - शनिवार | सकाळी ९ ते संध्याकाळी ७
+</footer>
+
+<script>
+const docs = [
+  {
+    id: 'pan', cat: 'id', icon: '🪪', color: '#eff6ff',
+    title: 'PAN Card (नवीन / दुरुस्ती)',
+    sub: 'Permanent Account Number',
+    fee: '₹107', time: '७-१५ दिवस',
+    docs: ['आधार कार्ड (अनिवार्य)', 'जन्म दाखला / शाळा सोडल्याचा दाखला (DOB Proof)', 'रहिवासी पुरावा (Address Proof)', '२ पासपोर्ट साईज फोटो', 'आधारशी जोडलेला मोबाइल नंबर']
+  },
+  {
+    id: 'aadhaar', cat: 'id', icon: '📱', color: '#fff7ed',
+    title: 'Aadhaar Update / दुरुस्ती',
+    sub: 'नाव, पत्ता, जन्मतारीख बदल',
+    fee: '₹50', time: '९० दिवस',
+    docs: ['जुने आधार कार्ड', 'नाव बदलसाठी: जन्म दाखला / शाळा दाखला', 'पत्ता बदलसाठी: वीज बिल / बँक पासबुक / रेशन कार्ड', 'जन्मतारीख बदलसाठी: शाळा दाखला / जन्म प्रमाणपत्र', 'नोंदणीकृत मोबाइल नंबर']
+  },
+  {
+    id: 'voter', cat: 'id', icon: '🗳️', color: '#f0fdf4',
+    title: 'मतदार ओळखपत्र (Voter ID)',
+    sub: 'नवीन नोंदणी / दुरुस्ती',
+    fee: '₹0 (मोफत)', time: '३०-४५ दिवस',
+    docs: ['आधार कार्ड', 'रहिवासी पुरावा (Residence Proof)', 'वय पुरावा (Age Proof)', '२ पासपोर्ट साईज फोटो', 'मोबाइल नंबर']
+  },
+  {
+    id: 'caste', cat: 'cert', icon: '📜', color: '#fef9c3',
+    title: 'जात प्रमाणपत्र (Caste Certificate)',
+    sub: 'SC / ST / OBC / VJNT / SBC',
+    fee: '₹25', time: '७-१५ दिवस',
+    docs: ['आधार कार्ड', 'रेशन कार्ड', 'रहिवासी पुरावा', 'वडिलांचे जात प्रमाणपत्र (असल्यास)', 'शाळेचा दाखला (School Certificate)', '२ पासपोर्ट साईज फोटो', 'जन्म दाखला']
+  },
+  {
+    id: 'validity', cat: 'cert', icon: '✅', color: '#fef9c3',
+    title: 'जात वैधता प्रमाणपत्र (Caste Validity)',
+    sub: 'Caste Validity Certificate',
+    fee: '₹50', time: '१५-३० दिवस',
+    docs: ['आधार कार्ड', 'जात प्रमाणपत्र (Caste Certificate)', 'शाळा सोडल्याचा दाखला (School Leaving Certificate)', 'जन्म दाखला', 'रहिवासी पुरावा', 'वडिलांचे / आईचे जात प्रमाणपत्र', 'वडिलांचे जन्म प्रमाणपत्र किंवा शाळा दाखला', 'रेशन कार्ड', '२ पासपोर्ट साईज फोटो', 'स्वयंघोषणापत्र (Self Declaration)']
+  },
+  {
+    id: 'income', cat: 'cert', icon: '💰', color: '#fef9c3',
+    title: 'उत्पन्न प्रमाणपत्र (Income Certificate)',
+    sub: 'Annual Income Proof',
+    fee: '₹25', time: '७-१० दिवस',
+    docs: ['आधार कार्ड', 'रेशन कार्ड', 'वेतन पर्ची / उत्पन्नाचा पुरावा (Salary Slip)', 'बँक पासबुक', '७/१२ उतारा (शेतकरी असल्यास)', 'स्वयंघोषणापत्र', '२ पासपोर्ट साईज फोटो']
+  },
+  {
+    id: 'domicile', cat: 'cert', icon: '🏠', color: '#fef9c3',
+    title: 'रहिवासी / अधिवास प्रमाणपत्र',
+    sub: 'Domicile Certificate',
+    fee: '₹25', time: '७-१५ दिवस',
+    docs: ['आधार कार्ड', 'रेशन कार्ड', 'शाळेचा दाखला', 'मतदार ओळखपत्र', 'वीज बिल / गॅस बिल', '१५ वर्षे महाराष्ट्रात राहिल्याचा पुरावा', '२ पासपोर्ट साईज फोटो']
+  },
+  {
+    id: 'ews', cat: 'cert', icon: '📊', color: '#fef9c3',
+    title: 'EWS प्रमाणपत्र',
+    sub: 'Economically Weaker Section',
+    fee: '₹50', time: '१५-३० दिवस',
+    docs: ['आधार कार्ड', 'उत्पन्न प्रमाणपत्र (वार्षिक ८ लाखांपेक्षा कमी)', 'रेशन कार्ड', '७/१२ / मालमत्तेचा पुरावा', 'बँक पासबुक', 'स्वयंघोषणापत्र', '२ पासपोर्ट साईज फोटो']
+  },
+  {
+    id: 'ncl', cat: 'cert', icon: '📋', color: '#fef9c3',
+    title: 'नॉन क्रिमी लेयर प्रमाणपत्र',
+    sub: 'Non-Creamy Layer Certificate (OBC)',
+    fee: '₹50', time: '१०-२० दिवस',
+    docs: ['आधार कार्ड', 'OBC जात प्रमाणपत्र', 'उत्पन्न प्रमाणपत्र', 'वडिलांचे / पालकांचे उत्पन्न प्रमाण', 'बँक पासबुक', 'रेशन कार्ड', '२ पासपोर्ट साईज फोटो']
+  },
+  {
+    id: 'birth', cat: 'family', icon: '👶', color: '#fce7f3',
+    title: 'जन्म दाखला (Birth Certificate)',
+    sub: 'नवीन / डुप्लिकेट',
+    fee: '₹25', time: '७-१५ दिवस',
+    docs: ['रुग्णालयातून मिळालेली जन्म नोंद (Hospital Record)', 'आई-वडिलांचे आधार कार्ड', 'लग्नाचे प्रमाणपत्र (Marriage Certificate)', 'रेशन कार्ड', 'ग्रामपंचायत / नगरपालिका नोंद (असल्यास)']
+  },
+  {
+    id: 'death', cat: 'family', icon: '🕊️', color: '#fce7f3',
+    title: 'मृत्यू दाखला (Death Certificate)',
+    sub: 'नवीन / डुप्लिकेट',
+    fee: '₹25', time: '७ दिवस',
+    docs: ['रुग्णालयातून मृत्यू प्रमाणपत्र (Hospital Death Certificate)', 'मृत व्यक्तीचे आधार कार्ड', 'अर्जदाराचे आधार कार्ड', 'रेशन कार्ड']
+  },
+  {
+    id: 'marriage', cat: 'family', icon: '💍', color: '#fce7f3',
+    title: 'विवाह नोंदणी (Marriage Registration)',
+    sub: 'Marriage Certificate',
+    fee: '₹100', time: '७-१५ दिवस',
+    docs: ['नवरा-बायकोचे आधार कार्ड', 'नवरा-बायकोचे जन्म दाखले', 'लग्नाचे फोटो / आमंत्रण पत्रिका', '२ साक्षीदारांचे आधार कार्ड', 'रहिवासी पुरावा', '२ पासपोर्ट साईज फोटो (प्रत्येकी)']
+  },
+  {
+    id: 'ration', cat: 'family', icon: '🛒', color: '#fce7f3',
+    title: 'शिधापत्रिका (Ration Card)',
+    sub: 'नवीन / नाव जोडणे / वेगळे करणे',
+    fee: '₹0 (मोफत)', time: '३०-४५ दिवस',
+    docs: ['सर्व कुटुंब सदस्यांचे आधार कार्ड', 'रहिवासी पुरावा', 'उत्पन्न प्रमाणपत्र', 'जुने रेशन कार्ड (असल्यास)', 'घराचे कर पावती / वीज बिल', 'सर्व सदस्यांचे पासपोर्ट फोटो (२ प्रत्येकी)']
+  },
+  {
+    id: '712', cat: 'govt', icon: '🌾', color: '#fff7ed',
+    title: '७/१२ उतारा (Satbara Utara)',
+    sub: 'जमीन / शेती दस्तऐवज',
+    fee: '₹15', time: 'तत्काळ',
+    docs: ['आधार कार्ड', 'गाव नंबर / सर्व्हे नंबर', 'जमीन मालकाचे नाव', 'मोबाइल नंबर']
+  },
+  {
+    id: 'scholarship', cat: 'govt', icon: '🎓', color: '#fff7ed',
+    title: 'शिष्यवृत्ती अर्ज (Scholarship)',
+    sub: 'Mahaswayam / EBC / Post Matric',
+    fee: '₹50', time: '१५-३० दिवस',
+    docs: ['आधार कार्ड (विद्यार्थी)', 'जात प्रमाणपत्र', 'उत्पन्न प्रमाणपत्र (पालकांचे)', 'मागील वर्षाचे गुणपत्रक (Marksheet)', 'बँक पासबुक (विद्यार्थ्याचे)', 'शाळा / कॉलेज बोनाफाईड सर्टिफिकेट', '२ पासपोर्ट साईज फोटो']
+  },
+  {
+    id: 'driving', cat: 'govt', icon: '🚗', color: '#fff7ed',
+    title: 'Driving Licence (नवीन / नूतनीकरण)',
+    sub: 'Learning / Permanent Licence',
+    fee: '₹200-400', time: '३०-६० दिवस',
+    docs: ['आधार कार्ड', 'रहिवासी पुरावा', 'वय पुरावा (Age Proof - किमान १८ वर्षे)', 'वैद्यकीय प्रमाणपत्र (Form 1A)', '२ पासपोर्ट साईज फोटो', 'जुने Licence (नूतनीकरणासाठी)']
+  },
+  {
+    id: 'passport', cat: 'govt', icon: '✈️', color: '#fff7ed',
+    title: 'Passport (नवीन / नूतनीकरण)',
+    sub: 'Fresh / Renewal / Tatkal',
+    fee: '₹1500-3500', time: '३०-४५ दिवस',
+    docs: ['आधार कार्ड (अनिवार्य)', 'जन्म दाखला', 'शाळा सोडल्याचा दाखला (DOB Proof)', 'रहिवासी पुरावा', 'जुना पासपोर्ट (नूतनीकरणासाठी)', '२ पांढऱ्या पार्श्वभूमीचे फोटो', 'पोलीस व्हेरिफिकेशन (आवश्यकतेनुसार)']
+  },
+  {
+    id: 'light', cat: 'govt', icon: '💡', color: '#fff7ed',
+    title: 'वीज जोडणी / तक्रार (MSEB)',
+    sub: 'New Connection / Complaint',
+    fee: '₹100-500', time: '७-३० दिवस',
+    docs: ['आधार कार्ड', 'रहिवासी पुरावा', 'घराचे मालकी पुरावा / भाड्याचे करार', 'जुने वीज बिल (असल्यास)', 'मोबाइल नंबर', 'पासपोर्ट साईज फोटो']
+  }
+];
+
+let currentCat = 'all';
+let currentSearch = '';
+
+function renderDocs() {
+  const grid = document.getElementById('docGrid');
+  const noResult = document.getElementById('noResult');
+  const countEl = document.getElementById('countNum');
+  const q = currentSearch.toLowerCase().trim();
+
+  const filtered = docs.filter(d => {
+    const catMatch = currentCat === 'all' || d.cat === currentCat;
+    const searchMatch = !q || d.title.toLowerCase().includes(q) || d.sub.toLowerCase().includes(q) || d.docs.some(x => x.toLowerCase().includes(q));
+    return catMatch && searchMatch;
+  });
+
+  countEl.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noResult.style.display = 'block';
+    document.getElementById('noQuery').textContent = currentSearch;
+    return;
+  }
+  noResult.style.display = 'none';
+
+  grid.innerHTML = filtered.map(d => `
+    <div class="doc-card" id="card-${d.id}" onclick="toggleCard('${d.id}')">
+      <div class="doc-header">
+        <div class="doc-icon" style="background:${d.color}">${d.icon}</div>
+        <div class="doc-title-wrap">
+          <div class="doc-title">${d.title}</div>
+          <div class="doc-subtitle">${d.sub}</div>
+        </div>
+        <div class="doc-arrow">⌄</div>
+      </div>
+      <div class="doc-body">
+        <div class="doc-body-title">📎 आवश्यक कागदपत्रे</div>
+        <ul class="req-list">
+          ${d.docs.map((doc, i) => `<li><span class="req-num">${i+1}</span>${doc}</li>`).join('')}
+        </ul>
+        <div class="info-row">
+          <span class="info-badge badge-fee">💵 शुल्क: ${d.fee}</span>
+          <span class="info-badge badge-time">⏱ वेळ: ${d.time}</span>
+        </div>
+        <a class="whatsapp-btn" href="https://wa.me/918600443830?text=${encodeURIComponent('नमस्कार! मला ' + d.title + ' बनवायचे आहे. कृपया मदत करा.')}" target="_blank">
+          💬 WhatsApp वर चौकशी करा
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCard(id) {
+  const card = document.getElementById('card-' + id);
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.doc-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderDocs();
+}
+
+function filterDocs() {
+  currentSearch = document.getElementById('searchBox').value;
+  renderDocs();
+}
+
+renderDocs();
+</script>
+</body>
+</html>
